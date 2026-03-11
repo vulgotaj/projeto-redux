@@ -44,7 +44,6 @@ export function Address() {
                 Deletar endereço
               </button>
             )}
-
           </div>
 
           <section className={styles.address}>
