@@ -3,10 +3,10 @@ import { Header } from '../../components/header'
 import { Link } from 'react-router-dom'
 
 import { useSelector, useDispatch } from 'react-redux'
-import { deleteAddress, fetchUsers } from '../../redux/user/slice'
+import { deleteAddress, fetchUsers, fetchUserById } from '../../redux/user/slice'
 
 export function Home() {
-  const { user } = useSelector((rootReducer) => rootReducer.user)
+  const { user, users, loading } = useSelector((rootReducer) => rootReducer.user)
   const dispatch = useDispatch();
 
   function handleDeleteAddress(){
@@ -16,6 +16,11 @@ export function Home() {
 
   function handleFetchUsers() {
     dispatch(fetchUsers())
+  }
+
+  function handleFetchUserById() {
+    const userId = 5
+    dispatch(fetchUserById(userId))
   }
 
   return (
@@ -61,7 +66,16 @@ export function Home() {
 
             <h2> Lista de Usuários </h2>
             <button onClick={handleFetchUsers}>Buscar usuário</button>
+            <button onClick={handleFetchUserById}>Buscar usuário por ID</button>
             <br/>
+
+            {loading && <strong>Carregando usuários</strong>}
+
+            {!loading && users.map((user) => (
+              <div key={user.id}>
+                <p>ID: {user.id} - Nome: {user.name}</p>
+              </div>
+            )) }
 
           </div>
 
